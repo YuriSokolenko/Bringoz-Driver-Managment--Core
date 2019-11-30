@@ -1,0 +1,28 @@
+
+
+<div class="container">
+    <div class="container-fluid">
+        
+        <h2>Admin Inteface</h2>
+
+        <div class='row dropdown-divider'></div>
+        <div class="btn-toolbar">
+                <div class="btn-group mr-2">
+                        <a routerLink="/create-driver-form"><button class="btn btn-primary  " type="button"> 
+                            Create Driver Form</button></a>
+                </div>
+           
+            <app-create-driver-form *ngIf='DriverCreateForm'></app-create-driver-form>
+
+            <div class="btn-group mr-2">
+                <a routerLink="/driver-list"><button class="btn btn-primary  " type="button"> Open
+                        List of Drivers</button></a>
+            </div>
+                
+        </div>
+        <router-outlet></router-outlet>
+
+
+    </div>
+</div>
+

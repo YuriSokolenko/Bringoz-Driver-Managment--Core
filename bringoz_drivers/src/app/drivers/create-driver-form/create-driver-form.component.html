@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <h2>Create Driver</h2>
+      <form [formGroup]=createDriverForm (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label> Id</label>
+          <input formControlName="id" type="text" class="form-control" required> 
+        </div>
+        <div class="form-group">
+          <label> First Name </label>
+          <input formControlName="firstName" type="text" class="form-control" required> 
+        </div>
+        <div class="form-group">
+          <label> Last Name</label>
+          <input formControlName="lastName" type="text" class="form-control" required> 
+        </div>
+      
+        <div class="form-group">
+          <label> Age</label>
+          <input formControlName="age" type="number" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label> Address</label>
+          <input formControlName="address" type="text" class="form-control" required>
+        </div>
+         <div class="form-group">
+            <label>Working Start Time</label>
+            <input formControlName="start" type="time" class="form-control" required>
+          </div>
+          <div class="form-group">
+              <label>Working End Time</label>
+              <input formControlName="end" type="time" class="form-control" required>
+            </div>
+            
+           
+
+
+   
+         <div class="btn-toolbar">
+            <div class="btn-group col-5 mr-7">
+                <a class="btn btn-primary text-white  " (click)='onBack()'> Back </a>
+            </div>
+            <div class="btn-group col-5 mr-7">
+        <button  [disabled]='!createDriverForm.valid' class="btn btn-primary " type="submit"> Create
+          Driver
+        </button>
+      
+      </div>
+     
+     
+
+
+
+
+    </div>
+  </form>
+  </div>
+</div>

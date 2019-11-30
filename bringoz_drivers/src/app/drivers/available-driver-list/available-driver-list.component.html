@@ -1,0 +1,72 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading' >
+      {{pageTitle}}
+    </div>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-2'>Filter by Name:</div>
+            <div class='col-md-4'><input type='text'  [(ngModel)]='listFilter'></div>
+        </div>
+        <div class='row'>
+            <div class="col-md-6"><h3></h3></div>
+        </div>
+        <div class="btn-group mr-2">
+                <a routerLink="/driver-list"><button class="btn btn-primary  " type="button">
+                        Show All Drivers</button></a>
+            </div>
+
+            <div class="col-md-4 offset-md-4">
+                    <h2>Find By "Time Window" </h2>
+                    <form [formGroup]=availableDriversListForm (ngSubmit)="onSubmit()">
+                      <div class="form-group">
+                        <label> Start Time</label>
+                        <input formControlName="start" type="time" class="form-control" required> 
+                      </div>
+                      <div class="form-group">
+                            <label> End Time</label>
+                            <input formControlName="end" type="time" class="form-control" required> 
+                          </div>
+                          <div class="btn-group col-5 mr-7">
+                                <button  [disabled]='!availableDriversListForm.valid' class="btn btn-primary " type="submit"> Find
+                                  Drivers
+                                </button>
+
+                              </div>
+                    </form>
+            </div>
+
+        <div class='table-responsive'  *ngIf='drivers && drivers.length;else falsyTemplate'> 
+            <table class='table' >
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let driver of drivers | driverFilter:listFilter'>
+                            <td>
+                                <a [routerLink]="['/driver', driver.id]">
+                                {{driver.id}}
+                                </a>
+                            </td>
+                        <td>{{driver.firstName | lowercase}}</td>
+                        <td>{{driver.lastName | lowercase}}</td>
+                        <td>{{driver.start}}</td>
+                        <td>{{driver.end}}</td>
+                        <td>{{driver.status}}</td>
+                      </tr> 
+                </tbody>
+            </table>
+        </div>
+
+   </div>
+
+   <ng-template #falsyTemplate>
+    <h3>No Recordes were found!!</h3>    
+</ng-template>  
+</div>

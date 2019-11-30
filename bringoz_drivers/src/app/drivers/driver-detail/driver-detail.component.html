@@ -1,0 +1,61 @@
+<div class='panel panel-primary' >
+    <div class='panel-heading' style='font-size:large'>
+        {{pageTitle + ': ' + driver?.firstName + ' '+ driver?.lastName}}
+    </div>
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-6'>
+                <div class='row'>
+                    <div class='col-md-3'>Id:</div>
+                    <div class='col-md-6'>{{driver?.id}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>First Name:</div>
+                    <div class='col-md-6'>{{driver?.firstName}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Last Name:</div>
+                    <div class='col-md-6'>{{driver?.lastName}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Age:</div>
+                    <div class='col-md-6'>{{driver?.age}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Address:</div>
+                    <div class='col-md-6'>{{driver?.address}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Status:</div>
+                    <div class='col-md-6'>{{driver?.status}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Start Time:</div>
+                    <div class='col-md-6'>{{driver?.start}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>End Time:</div>
+                    <div class='col-md-6'>{{driver?.end}}</div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-3'>Locatated in the map bounds?:</div>
+                    <div class='col-md-6'>{{driver?.isInMapBounds}}</div>
+                </div>
+                
+                 
+            </div>
+            
+           
+        </div>
+    </div>
+    <div class="btn-group col-3">
+        <a class="btn btn-primary text-white" (click)='onRemoveDriver()'> Remove Driver</a>
+    </div> 
+
+    <div class='panel-footer'>
+        <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+            <i class='glyphicon glyphicon-chevron-left'></i> Back
+        </a>
+    </div>
+    
+</div>
