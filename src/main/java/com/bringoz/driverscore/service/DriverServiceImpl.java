@@ -6,9 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bringoz.driverscore.exception.Driverscore;
+import com.bringoz.driverscore.exception.GeneralException;
 import com.bringoz.driverscore.model.Driver;
-import com.bringoz.driverscore.model.DriverStatus;
 import com.bringoz.driverscore.repository.DriverRepository;
 
 @Service
@@ -18,77 +17,52 @@ public class DriverServiceImpl implements IDriverService {
 	private DriverRepository driverRepository;
 
 	@Override
-	public void create(Driver driver) throws Driverscore {
+	public Driver create(Driver driver) throws GeneralException {
 		if(driverRepository.existsById(driver.getId())) {
-			throw new Driverscore("Driver with this ID is already exist");
+			throw new GeneralException("Driver with this ID is already exist");
 		} else {
-		driverRepository.save(driver);
+				return driverRepository.save(driver);
+				}
+	}
+
+	@Override
+	public Driver remove(long driverId) throws GeneralException {
+		Driver driver = driverRepository.findById(driverId).get();
+		if(driver != null) {
+			driverRepository.deleteById(driverId);
+			return driver;
+		} else {
+			throw new GeneralException("Driver with id "+ driverId + " not found");
 		}
 	}
 
 	@Override
-	public void remove(long driverId) {
-		driverRepository.deleteById(driverId);
-	}
-
-	@Override
-	public void update(Driver driver) throws Driverscore {
-		if(driverRepository.existsById(driver.getId())) {
-			throw new Driverscore("Driver with this ID is already exist");
-		} else {
+	public Driver update(Driver driver) throws GeneralException {
+		if(!(driverRepository.existsById(driver.getId()))) {
+			throw new GeneralException("Driver with this ID: " + driver.getId() + " not found");
+			} else {
 		
-		Driver updatedDriver = driverRepository.findById(driver.getId()).get();
-		updatedDriver.setAddress(driver.getAddress());
-		updatedDriver.setAge(driver.getAge());
-		updatedDriver.setIsInMapBounds(driver.getIsInMapBounds());
-		updatedDriver.setStart(driver.getStart());
-		updatedDriver.setEnd(driver.getEnd());
-		updatedDriver.setStatus(driver.getStatus());
-		driverRepository.save(updatedDriver);
-		}
+					Driver updatedDriver = driverRepository.findById(driver.getId()).get();
+					updatedDriver.setAddress(driver.getAddress());
+					updatedDriver.setAge(driver.getAge());
+					updatedDriver.setIsInMapBounds(driver.getIsInMapBounds());
+					updatedDriver.setStart(driver.getStart());
+					updatedDriver.setEnd(driver.getEnd());
+					updatedDriver.setStatus(driver.getStatus());
+					driverRepository.save(updatedDriver);
+					return updatedDriver;
+					}
 	}
 
 	@Override
-	public Driver findById(Long id) throws Driverscore {
+	public Driver findById(Long id) throws GeneralException {
 		if(driverRepository.existsById(id)) {
 			return driverRepository.findById(id).get();
 		} else {
-			throw new Driverscore("Driver with id "+id + " not found");
-		}
+				throw new GeneralException("Driver with id "+id + " not found");
+				}
 	}
 
-	@Override
-	public void changeStatusToActive(Long driverId) throws Driverscore {
-		Driver driver = driverRepository.findById(driverId).get();
-		if(driver!=null) {
-		driver.setStatus(DriverStatus.ACTIVE);
-		driverRepository.save(driver);
-		} else {
-			throw new Driverscore("Driver with id "+driverId + " not found");
-		}
-	}
-	
-	@Override
-	public void changeStatusToInactive(Long driverId) throws Driverscore {
-		Driver driver = driverRepository.findById(driverId).get();
-		if(driver!=null) {
-			driver.setStatus(DriverStatus.INACTIVE);
-			driverRepository.save(driver);
-			} else {
-				throw new Driverscore("Driver with id "+driverId + " not found");
-			}
-	}
-	
-	@Override
-	public void changeStatusToDelivering(Long driverId) throws Driverscore {
-		Driver driver = driverRepository.findById(driverId).get();
-		if(driver!=null) {
-			driver.setStatus(DriverStatus.DELIVERING);
-			driverRepository.save(driver);
-			} else {
-				throw new Driverscore("Driver with id "+driverId + " not found");
-			}
-	}
 
 	@Override
 	public List<Driver> findAllAvailableByTime(LocalTime startTime, LocalTime endTime){

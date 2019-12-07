@@ -23,14 +23,11 @@
 <meta name="DC.rights.owner" content="(C) Copyright 2005" />
 <meta content="public" name="security" />
 <meta content="index,follow" name="Robots" />
-<meta http-equiv="PICS-Label"
-	content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
 <meta content="concept" name="DC.Type" />
 <meta name="DC.Title" content="The MIN() and MAX() optimizations" />
-<meta name="abstract"
-	content="The optimizer knows that it can avoid iterating through all the source rows in a result to compute a MIN() or MAX() aggregate when data are already in the right order." />
-<meta name="description"
-	content="The optimizer knows that it can avoid iterating through all the source rows in a result to compute a MIN() or MAX() aggregate when data are already in the right order." />
+<meta name="abstract" content="The optimizer knows that it can avoid iterating through all the source rows in a result to compute a MIN() or MAX() aggregate when data are already in the right order." />
+<meta name="description" content="The optimizer knows that it can avoid iterating through all the source rows in a result to compute a MIN() or MAX() aggregate when data are already in the right order." />
 <meta content="MIN() optimization, MAX() optimization" name="DC.subject" />
 <meta content="MIN() optimization, MAX() optimization" name="keywords" />
 <meta scheme="URI" name="DC.Relation" content="ctunoptimz860097.html" />
@@ -41,61 +38,52 @@
 <link href="commonltr.css" type="text/css" rel="stylesheet" />
 <title>The MIN() and MAX() optimizations</title>
 </head>
-<body id="ctunoptimz22111">
-	<a name="ctunoptimz22111">
-		<!-- -->
-	</a>
+<body id="ctunoptimz22111"><a name="ctunoptimz22111"><!-- --></a>
 
 
-	<h1 class="topictitle1">The MIN() and MAX() optimizations</h1>
+<h1 class="topictitle1">The MIN() and MAX() optimizations</h1>
 
 
 
-	<div>
-		<p>The optimizer knows that it can avoid iterating through all the
-			source rows in a result to compute a MIN() or MAX() aggregate when
-			data are already in the right order.</p>
+<div><p>The optimizer knows that it can avoid iterating through all the
+source rows in a result to compute a MIN() or MAX() aggregate when data are
+already in the right order.</p>
 
-		<p>
-			When data are guaranteed to be in the right order, <span>Derby</span>
-			can go immediately to the smallest (minimum) or largest (maximum)
-			row.
-		</p>
+<p>When data are guaranteed to be in the right order,
+<span>Derby</span> can go immediately to
+the smallest (minimum) or largest (maximum) row.</p>
 
-		<p>The following conditions must be true:</p>
+<p>The following conditions must be true:</p>
 
-		<ul>
-			<li>The MIN() or MAX() is the only entry in the SELECT list.</li>
+<ul>
+<li>The MIN() or MAX() is the only entry in the SELECT list.</li>
 
-			<li>The MIN() or MAX() is on a simple column reference, not on
-				an expression.</li>
+<li>The MIN() or MAX() is on a simple column reference, not on an
+expression.</li>
 
-			<li>For MAX(), there must not be a WHERE clause.</li>
+<li>For MAX(), there must not be a WHERE clause.</li>
 
-			<li>For MIN():
-				<ul>
-					<li>The referenced table is the outermost table in the
-						optimizer's chosen join order for the query block.</li>
+<li>For MIN():  
+<ul>
+<li>The referenced table is the outermost table in the optimizer's chosen join
+order for the query block.</li>
 
-					<li>The optimizer chose an index containing the referenced
-						column as the access path.</li>
+<li>The optimizer chose an index containing the referenced column as the access
+path.</li>
 
-					<li>The referenced column is the first key column in that
-						index OR the referenced column is a key column in that index and
-						equality predicates exist on all key columns prior to the simple
-						column reference in that index.</li>
+<li>The referenced column is the first key column in that index OR the
+referenced column is a key column in that index and equality predicates exist on
+all key columns prior to the simple column reference in that index.</li>
 
-				</ul>
-			</li>
+</ul>
+</li>
 
-		</ul>
+</ul>
 
-		<p>For example, the optimizer can use this optimization for the
-			following queries (if the optimizer uses the appropriate indexes as
-			the access paths):</p>
+<p>For example, the optimizer can use this optimization for the following
+queries (if the optimizer uses the appropriate indexes as the access paths):</p>
 
-		<pre>
-			<strong><span>-- index on orig_airport</span>
+<pre><strong><span>-- index on orig_airport</span>
 SELECT MIN(orig_airport)
 FROM Flights
 <span>-- index on orig_airport</span>
@@ -114,31 +102,21 @@ SELECT *
 FROM Flights 
 WHERE segment_number = (SELECT MIN(segment_number) 
 FROM Flights 
-WHERE flight_id = 'AA1111')</strong>
-		</pre>
+WHERE flight_id = 'AA1111')</strong></pre>
 
-		<p>The optimizer decides whether to implement the optimization
-			after choosing the plan for the query. The optimizer does not take
-			this optimization into account when costing the plan.</p>
+<p>The optimizer decides whether to implement the optimization after choosing
+the plan for the query. The optimizer does not take this optimization into
+account when costing the plan.</p>
 
-	</div>
-	<div>
-		<div class="familylinks">
-			<div class="parentlink">
-				<strong>Parent topic:</strong> <a href="ctunoptimz860097.html"
-					title="The optimizer makes some non-cost-based optimizations, which means that it does not consider them when determining the access path and join order.">Non-cost-based
-					optimizations</a>
-			</div>
-		</div>
-		<div class="relconcepts">
-			<strong>Related concepts</strong><br />
-			<div>
-				<a href="ctunoptimz22460.html"
-					title="In most cases, Derby needs to perform two separate steps for statements that use DISTINCT or GROUP BY: first sorting the selected columns, then either discarding duplicate rows or aggregating grouped rows. Sometimes it is able to avoid sorting for these statements with tuple filtering.">Non-cost-based
-					sort avoidance (tuple filtering)</a>
-			</div>
-		</div>
-	</div>
+</div>
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="ctunoptimz860097.html" title="The optimizer makes some non-cost-based optimizations, which means that it does not consider them when determining the access path and join order.">Non-cost-based optimizations</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br />
+<div><a href="ctunoptimz22460.html" title="In most cases, Derby needs to perform two separate steps for statements that use DISTINCT or GROUP BY: first sorting the selected columns, then either discarding duplicate rows or aggregating grouped rows. Sometimes it is able to avoid sorting for these statements with tuple filtering.">Non-cost-based sort avoidance (tuple filtering)</a></div>
+</div>
+</div>
 
 </body>
 </html>

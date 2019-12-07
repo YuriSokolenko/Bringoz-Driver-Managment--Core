@@ -23,15 +23,11 @@
 <meta name="DC.rights.owner" content="(C) Copyright 2005" />
 <meta content="public" name="security" />
 <meta content="index,follow" name="Robots" />
-<meta http-equiv="PICS-Label"
-	content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
 <meta content="reference" name="DC.Type" />
-<meta name="DC.Title"
-	content="Storing values of one numeric data type in columns of another numeric data type" />
-<meta name="abstract"
-	content="An attempt to put a floating-point type of a larger storage size into a location of a smaller size fails only if the value cannot be stored in the smaller-size location." />
-<meta name="description"
-	content="An attempt to put a floating-point type of a larger storage size into a location of a smaller size fails only if the value cannot be stored in the smaller-size location." />
+<meta name="DC.Title" content="Storing values of one numeric data type in columns of another numeric data type" />
+<meta name="abstract" content="An attempt to put a floating-point type of a larger storage size into a location of a smaller size fails only if the value cannot be stored in the smaller-size location." />
+<meta name="description" content="An attempt to put a floating-point type of a larger storage size into a location of a smaller size fails only if the value cannot be stored in the smaller-size location." />
 <meta scheme="URI" name="DC.Relation" content="crefsqlj41507.html" />
 <meta scheme="URI" name="DC.Relation" content="crefsqlj28138.html" />
 <meta scheme="URI" name="DC.Relation" content="rrefsqlj27767.html" />
@@ -40,116 +36,78 @@
 <meta content="rrefsqlj20204" name="DC.Identifier" />
 <meta content="en-us" name="DC.Language" />
 <link href="commonltr.css" type="text/css" rel="stylesheet" />
-<title>Storing values of one numeric data type in columns of
-	another numeric data type</title>
+<title>Storing values of one numeric data type in columns of another numeric
+data type</title>
 </head>
-<body id="rrefsqlj20204">
-	<a name="rrefsqlj20204">
-		<!-- -->
-	</a>
+<body id="rrefsqlj20204"><a name="rrefsqlj20204"><!-- --></a>
 
 
-	<h1 class="topictitle1">Storing values of one numeric data type in
-		columns of another numeric data type</h1>
+<h1 class="topictitle1">Storing values of one numeric data type in columns of another numeric
+data type</h1>
 
 
-	<div>
-		<p>An attempt to put a floating-point type of a larger storage
-			size into a location of a smaller size fails only if the value cannot
-			be stored in the smaller-size location.</p>
+<div><p>An attempt to put a floating-point type of a larger storage size into
+a location of a smaller size fails only if the value cannot be stored in the
+smaller-size location.</p>
 
-		<div class="section">
-			<div class="p">
-				For example:
-				<pre>
-					<strong>create table mytable (r REAL, d DOUBLE PRECISION, i INTEGER, de DECIMAL);</strong>
+<div class="section"><div class="p">For example:
+<pre><strong>create table mytable (r REAL, d DOUBLE PRECISION, i INTEGER, de DECIMAL);</strong>
 0 rows inserted/updated/deleted
 <strong>INSERT INTO mytable (r, d) values (3.4028236E38, 3.4028235E38);</strong>
 ERROR 22003: The resulting value is outside the range for the
 data type REAL.</pre>
-			</div>
-		</div>
+</div>
+</div>
 
-		<div class="section">
-			<div class="p">
-				You can store a floating-point type in an INTEGER column; the
-				fractional part of the number is truncated. For example:
-				<pre>
-					<strong><span>INSERT INTO mytable (i) VALUES (1.09e0);</span></strong>
+<div class="section"><div class="p">You can store a floating-point type in an INTEGER column; the
+fractional part of the number is truncated. For example:
+<pre><strong><span>INSERT INTO mytable (i) VALUES (1.09e0);</span></strong>
 1 row inserted/updated/deleted
 <strong><span>SELECT i FROM mytable;</span></strong>
 I
 ---------------
 1</pre>
-			</div>
-		</div>
+</div>
+</div>
 
-		<div class="section">
-			<p>Integer types can always be placed successfully in approximate
-				numeric values, although with the possible loss of some precision.</p>
-		</div>
+<div class="section"><p>Integer types can always be placed successfully in approximate
+numeric values, although with the possible loss of some precision.</p>
+</div>
 
-		<div class="section">
-			<div class="p">
-				Integers can be stored in decimals if the DECIMAL precision is large
-				enough for the value. For example:
-				<pre>
-					<strong><span>INSERT INTO mytable (de) VALUES (55555555556666666666);</span></strong>
+<div class="section"><div class="p">Integers can be stored in decimals if the DECIMAL precision is
+large enough for the value. For example:
+<pre><strong><span>INSERT INTO mytable (de) VALUES (55555555556666666666);</span></strong>
 ERROR 22003: The resulting value is outside the range for the
 data type DECIMAL/NUMERIC(5,2).</pre>
-			</div>
-		</div>
+</div>
+</div>
 
-		<div class="section">
-			<div class="p">
-				An attempt to put an integer value of a larger storage size into a
-				location of a smaller size fails if the value cannot be stored in
-				the smaller-size location. For example:
-				<pre>
-					<strong><span>INSERT INTO mytable (i) VALUES 2147483648;</span></strong>
+<div class="section"><div class="p">An attempt to put an integer value of a larger storage size into
+a location of a smaller size fails if the value cannot be stored in the smaller-size
+location. For example:
+<pre><strong><span>INSERT INTO mytable (i) VALUES 2147483648;</span></strong>
 ERROR 22003: The resulting value is outside the range for the 
 data type INTEGER.</pre>
-			</div>
-		</div>
+</div>
+</div>
 
-		<div class="section">
-			<div class="note">
-				<span class="notetitle">Note: </span>When truncating trailing digits
-				from a NUMERIC value, <span>Derby</span> rounds down.
-			</div>
-		</div>
+<div class="section"> <div class="note"><span class="notetitle">Note: </span>When truncating trailing digits from a NUMERIC value, <span>Derby</span> rounds down.</div>
+</div>
 
-	</div>
+</div>
 
-	<div>
-		<div class="familylinks">
-			<div class="parentlink">
-				<strong>Parent topic:</strong> <a href="crefsqlj41507.html" title="">Numeric
-					types</a>
-			</div>
-		</div>
-		<div class="relconcepts">
-			<strong>Related concepts</strong><br />
-			<div>
-				<a href="crefsqlj28138.html"
-					title="Numeric types include the following types, which provide storage of varying sizes.">Numeric
-					type overview</a>
-			</div>
-		</div>
-		<div class="relref">
-			<strong>Related reference</strong><br />
-			<div>
-				<a href="rrefsqlj27767.html"
-					title="In expressions that use only integer types, Derby promotes the type of the result to at least INTEGER. In expressions that mix integer with non-integer types, Derby promotes the result of the expression to the highest type in the expression.">Numeric
-					type promotion in expressions</a>
-			</div>
-			<div>
-				<a href="rrefsqlj36146.html"
-					title="SQL statements can involve arithmetic expressions that use decimal data types of different precisions (the total number of digits, both to the left and to the right of the decimal point) and scales (the number of digits of the fractional component).">Scale
-					for decimal arithmetic</a>
-			</div>
-		</div>
-	</div>
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="crefsqlj41507.html" title="">Numeric types</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br />
+<div><a href="crefsqlj28138.html" title="Numeric types include the following types, which provide storage of varying sizes.">Numeric type overview</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br />
+<div><a href="rrefsqlj27767.html" title="In expressions that use only integer types, Derby promotes the type of the result to at least INTEGER. In expressions that mix integer with non-integer types, Derby promotes the result of the expression to the highest type in the expression.">Numeric type promotion in expressions</a></div>
+<div><a href="rrefsqlj36146.html" title="SQL statements can involve arithmetic expressions that use decimal data types of different precisions (the total number of digits, both to the left and to the right of the decimal point) and scales (the number of digits of the fractional component).">Scale for decimal arithmetic</a></div>
+</div>
+</div>
 
 </body>
 </html>

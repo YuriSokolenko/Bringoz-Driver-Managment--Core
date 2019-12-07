@@ -23,14 +23,11 @@
 <meta name="DC.rights.owner" content="(C) Copyright 2005" />
 <meta content="public" name="security" />
 <meta content="index,follow" name="Robots" />
-<meta http-equiv="PICS-Label"
-	content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
 <meta content="reference" name="DC.Type" />
 <meta name="DC.Title" content="Basic security policy template" />
-<meta name="abstract"
-	content="If you start the Network Server without specifying a security manager, the Network Server will install a default Java security manager that enforces a basic policy." />
-<meta name="description"
-	content="If you start the Network Server without specifying a security manager, the Network Server will install a default Java security manager that enforces a basic policy." />
+<meta name="abstract" content="If you start the Network Server without specifying a security manager, the Network Server will install a default Java security manager that enforces a basic policy." />
+<meta name="description" content="If you start the Network Server without specifying a security manager, the Network Server will install a default Java security manager that enforces a basic policy." />
 <meta content="Network Server, basic policy" name="DC.subject" />
 <meta content="Network Server, basic policy" name="keywords" />
 <meta scheme="URI" name="DC.Relation" content="csecjavasecurity.html" />
@@ -45,34 +42,28 @@
 <link href="commonltr.css" type="text/css" rel="stylesheet" />
 <title>Basic security policy template</title>
 </head>
-<body id="rsecnetservbasic">
-	<a name="rsecnetservbasic">
-		<!-- -->
-	</a>
+<body id="rsecnetservbasic"><a name="rsecnetservbasic"><!-- --></a>
 
 
-	<h1 class="topictitle1">Basic security policy template</h1>
+<h1 class="topictitle1">Basic security policy template</h1>
 
 
 
-	<div>
-		<p>If you start the Network Server without specifying a security
-			manager, the Network Server will install a default Java security
-			manager that enforces a basic policy.</p>
+<div><p>If you start the Network Server without specifying a security
+manager, the Network Server will install a default Java security manager that
+enforces a basic policy.</p>
 
-		<div class="section">
-			<p>
-				Note that the Network Server attempts to install a security manager
-				only if you boot the server as the entry point of your VM. The
-				Network Server will not attempt to install a security manager if you
-				start the server from your application using the programmatic API
-				described in "Starting the Network Server from a Java application"
-				in the <span><em>Derby Server and Administration Guide</em></span>.
-			</p>
+<div class="section">
+<p> Note that the Network Server attempts to install a security manager only if
+you boot the server as the entry point of your VM. The Network Server will not
+attempt to install a security manager if you start the server from your
+application using the programmatic API described in
+"Starting the Network Server from a Java application" in the
+<span><em>Derby Server and Administration Guide</em></span>.</p>
 
-			<p>The following is a copy of the basic policy:</p>
+<p>The following is a copy of the basic policy:</p>
 
-			<pre>// This template policy file gives examples of how to configure the
+<pre>// This template policy file gives examples of how to configure the
 // permissions needed to run a <span>Derby</span> network server with the Java
 // Security manager.
 //
@@ -230,53 +221,26 @@ grant codeBase "${derby.install.url}derbynet.jar"
   //     "read";
 };</pre>
 
-		</div>
+</div>
 
-	</div>
+</div>
 
-	<div>
-		<div class="familylinks">
-			<div class="parentlink">
-				<strong>Parent topic:</strong> <a href="csecjavasecurity.html"
-					title="The Java security manager lets you reduce the damage that your application can do.">Configuring
-					Java security</a>
-			</div>
-		</div>
-		<div class="relconcepts">
-			<strong>Related concepts</strong><br />
-			<div>
-				<a href="csecrunpolicy.html"
-					title="You can bring up the Network Server with a security manager and a customized policy file.">Using
-					a Java security policy file</a>
-			</div>
-			<div>
-				<a href="csecembeddedperms.html"
-					title="This section describes the permissions that should be granted to the codebase derby.jar to allow you to run embedded Derby with a security manager.">Running
-					embedded Derby with a security manager</a>
-			</div>
-		</div>
-		<div class="reltasks">
-			<strong>Related tasks</strong><br />
-			<div>
-				<a href="tsecnetservrun.html"
-					title="If you start the Network Server without specifying a security manager, the Network Server installs a default Java security manager that enforces a Basic policy.">Running
-					the Network Server with a security manager</a>
-			</div>
-			<div>
-				<a href="tsecnetservopen.html"
-					title="You may override the Network Server's default installation of a security manager if, for some reason, you need to run your application outside of the Java security protections.">Running
-					the Network Server without a security manager</a>
-			</div>
-		</div>
-		<div class="relref">
-			<strong>Related reference</strong><br />
-			<div>
-				<a href="rsecpolicysample.html"
-					title="Here is a sample customized Java security policy file.">Sample
-					customized Java security policy file</a>
-			</div>
-		</div>
-	</div>
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="csecjavasecurity.html" title="The Java security manager lets you reduce the damage that your application can do.">Configuring Java security</a></div>
+</div>
+<div class="relconcepts"><strong>Related concepts</strong><br />
+<div><a href="csecrunpolicy.html" title="You can bring up the Network Server with a security manager and a customized policy file.">Using a Java security policy file</a></div>
+<div><a href="csecembeddedperms.html" title="This section describes the permissions that should be granted to the codebase derby.jar to allow you to run embedded Derby with a security manager.">Running embedded Derby with a security manager</a></div>
+</div>
+<div class="reltasks"><strong>Related tasks</strong><br />
+<div><a href="tsecnetservrun.html" title="If you start the Network Server without specifying a security manager, the Network Server installs a default Java security manager that enforces a Basic policy.">Running the Network Server with a security manager</a></div>
+<div><a href="tsecnetservopen.html" title="You may override the Network Server's default installation of a security manager if, for some reason, you need to run your application outside of the Java security protections.">Running the Network Server without a security manager</a></div>
+</div>
+<div class="relref"><strong>Related reference</strong><br />
+<div><a href="rsecpolicysample.html" title="Here is a sample customized Java security policy file.">Sample customized Java security policy file</a></div>
+</div>
+</div>
 
 </body>
 </html>

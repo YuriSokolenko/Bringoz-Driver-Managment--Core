@@ -23,93 +23,75 @@
 <meta name="DC.rights.owner" content="(C) Copyright 2005" />
 <meta content="public" name="security" />
 <meta content="index,follow" name="Robots" />
-<meta http-equiv="PICS-Label"
-	content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
 <meta content="concept" name="DC.Type" />
 <meta name="DC.Title" content="Writing context-aware table functions" />
-<meta name="abstract"
-	content="A context-aware table function is able to access context information that is passed in to it from Derby." />
-<meta name="description"
-	content="A context-aware table function is able to access context information that is passed in to it from Derby." />
-<meta content="functions, context-aware table functions"
-	name="DC.subject" />
+<meta name="abstract" content="A context-aware table function is able to access context information that is passed in to it from Derby." />
+<meta name="description" content="A context-aware table function is able to access context information that is passed in to it from Derby." />
+<meta content="functions, context-aware table functions" name="DC.subject" />
 <meta content="functions, context-aware table functions" name="keywords" />
 <meta scheme="URI" name="DC.Relation" content="cdevspecialtabfuncs.html" />
-<meta scheme="URI" name="DC.Relation"
-	content="cdevspecialtfarchivevti.html" />
+<meta scheme="URI" name="DC.Relation" content="cdevspecialtfarchivevti.html" />
 <meta content="XHTML" name="DC.Format" />
 <meta content="cdevspecialtfcontext" name="DC.Identifier" />
 <meta content="en-us" name="DC.Language" />
 <link href="commonltr.css" type="text/css" rel="stylesheet" />
 <title>Writing context-aware table functions</title>
 </head>
-<body id="cdevspecialtfcontext">
-	<a name="cdevspecialtfcontext">
-		<!-- -->
-	</a>
+<body id="cdevspecialtfcontext"><a name="cdevspecialtfcontext"><!-- --></a>
 
 
-	<h1 class="topictitle1">Writing context-aware table functions</h1>
+<h1 class="topictitle1">Writing context-aware table functions</h1>
 
 
 
-	<div>
-		<p>
-			A context-aware table function is able to access context information
-			that is passed in to it from <span>Derby</span>.
-		</p>
+<div><p>A context-aware table function is able to access context information
+that is passed in to it from
+<span>Derby</span>.</p>
 
-		<div class="p">
-			Context-aware table functions are useful when both of the following
-			are the case:
-			<ul>
-				<li>You want to bind a single Java method to many table
-					functions, each of which has a different row shape.</li>
+<div class="p">Context-aware table functions are useful when both of the following are the
+case:
+<ul>
+<li>You want to bind a single Java method to many table functions, each of which
+has a different row shape.</li>
 
-				<li>You are able to determine the row shape, at runtime, from
-					the schema-qualified name of the table function which is being
-					invoked.</li>
+<li>You are able to determine the row shape, at runtime, from the
+schema-qualified name of the table function which is being invoked.</li>
 
-			</ul>
-		</div>
+</ul>
+</div>
 
-		<p>
-			A context-aware table function makes use of the <em>org.apache.derby.vti.AwareVTI</em>
-			interface and the <em>org.apache.derby.vti.VTIContext</em> class. The
-			<em>VTIContext</em> class, which can be accessed through the <em>AwareVTI</em>
-			interface, provides methods that return the unqualified table
-			function name, the name of the schema which holds the table function,
-			and the text of the statement which invoked the table function. See
-			the <span>Derby</span> public API documentation for more information
-			about <em>AwareVTI</em> and <em>VTIContext</em>.
-		</p>
+<p>A context-aware table function makes use of the
+<em>org.apache.derby.vti.AwareVTI</em> interface and the
+<em>org.apache.derby.vti.VTIContext</em> class. The <em>VTIContext</em> class, which
+can be accessed through the <em>AwareVTI</em> interface, provides methods that
+return the unqualified table function name, the name of the schema which holds
+the table function, and the text of the statement which invoked the table
+function. See the <span>Derby</span>
+public API documentation for more information about <em>AwareVTI</em> and
+<em>VTIContext</em>.</p>
 
-		<p>
-			For example, the <em>ArchiveVTI</em> table function performs a task
-			which many users have found useful: it provides a union of a main
-			table with a set of archive tables. The archive tables are created at
-			regular intervals. When a new archive table is created, the oldest
-			rows from the main table are moved to the archive table.
-		</p>
+<p>For example, the <em>ArchiveVTI</em> table function performs a task
+which many users have found useful: it provides a union of a main table with a 
+set of archive tables. The archive tables are created at regular intervals. When
+a new archive table is created, the oldest rows from the main table are moved to
+the archive table.</p>
 
-		<p>
-			To use the <em>ArchiveVTI</em> table function, you need to include <em>derbyTesting.jar</em>
-			in your classpath along with other <span>Derby</span> jar files.
-		</p>
+<p>To use the <em>ArchiveVTI</em> table function, you need to include
+<em>derbyTesting.jar</em> in your classpath along with other
+<span>Derby</span> jar files.</p>
 
-		<p>
-			The following series of commands shows how to use the <em>archiveVTI</em>
-			method, which is included in the <span>Derby</span> test code. The
-			source code for the <em>ArchiveVTI</em> class is provided in the next
-			topic.
-		</p>
+<p>The following series of commands shows how to use the <em>archiveVTI</em>
+method, which is included in the
+<span>Derby</span> test code. The source
+code for the <em>ArchiveVTI</em> class is provided in the next topic.
+</p>
 
-		<p>In this example, the method is bound to two table functions;
-			one function returns a three-column table, the other a two-column
-			table.</p>
+<p>In this
+example, the method is bound to two table functions; one function returns a
+three-column table, the other a two-column table.</p>
 
-		<pre>
-			<strong>java org.apache.derby.tools.ij</strong>
+<pre><strong>java org.apache.derby.tools.ij</strong>
 ij version 10.11
 ij&gt; <strong>connect 'jdbc:derby:memory:db;create=true';</strong>
 ij&gt; <strong>create table t1
@@ -192,23 +174,18 @@ KEYCOL     |ACOL
 
 5 rows selected</pre>
 
-	</div>
+</div>
 
-	<div>
-		<ul class="ullinks">
-			<li class="ulchildlink"><strong><a
-					href="cdevspecialtfarchivevti.html">ArchiveVTI source code</a></strong><br />
-				The code that defines the archiveVTI table function is as follows.</li>
-		</ul>
+<div>
+<ul class="ullinks">
+<li class="ulchildlink"><strong><a href="cdevspecialtfarchivevti.html">ArchiveVTI source code</a></strong><br />
+The code that defines the archiveVTI table function is as follows.</li>
+</ul>
 
-		<div class="familylinks">
-			<div class="parentlink">
-				<strong>Parent topic:</strong> <a href="cdevspecialtabfuncs.html"
-					title="Derby lets you create table functions. Table functions are functions which package up external data to look like Derby tables. The external data can be an XML file, a table in a foreign database, a live data feed--in short, any information source that can be presented as a JDBC ResultSet.">Programming
-					Derby-style table functions</a>
-			</div>
-		</div>
-	</div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="cdevspecialtabfuncs.html" title="Derby lets you create table functions. Table functions are functions which package up external data to look like Derby tables. The external data can be an XML file, a table in a foreign database, a live data feed--in short, any information source that can be presented as a JDBC ResultSet.">Programming Derby-style table functions</a></div>
+</div>
+</div>
 
 </body>
 </html>

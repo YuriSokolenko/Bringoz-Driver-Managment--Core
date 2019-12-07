@@ -17,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -46,18 +45,18 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 		private String exampleDriverJson = "{\"id\":\"1111\",\"firstName\":\"David\",\"lastName\":\"Rishon\",\"age\":\"29\",\"address\":\"Jerusalem\",\"status\":\"ACTIVE\",\"start\":\"08:15:00\",\"end\":\"22:15:00\",\"isInMapBounds\":\"true\"}";
 
 		@Test
-		public void creatingDriver_expectingReturnsString() throws Exception{
+		public void creatingDriver_expectingOneTimeCall() throws Exception{
+			Mockito.when(driverService.create(driver)).thenReturn(driver);
 			
-			Mockito.doNothing().when(driverService).create(driver);
-			
-			MvcResult result = mvc.perform(post("http://localhost:8081/driver-service/createDriver").
+			mvc.perform(post("http://localhost:8081/driver-service/drivers").
 					content(exampleDriverJson)
 					.contentType(MediaType.APPLICATION_JSON)
+					.characterEncoding("utf-8")
 					.accept(MediaType.APPLICATION_JSON))
-					.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+					.andExpect(MockMvcResultMatchers.status().isOk())
+					.andReturn();
 			
-			String response = result.getResponse().getContentAsString();
-			assertEquals("New Driver has been saved", response);
+			Mockito.verify(driverService, Mockito.times(1)).create(driver);
 		}
 		
 		@Test
@@ -66,7 +65,7 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 			Mockito.when(driverService.findById(Mockito.anyLong())).thenReturn(driver);
 			
 			mvc.perform( MockMvcRequestBuilders
-				      .get("http://localhost:8081/driver-service/getDriverById/{id}", 1111L));
+				      .get("http://localhost:8081/driver-service/drivers/{id}", 1111L));
 			Mockito.verify(driverService, Mockito.times(1)).findById(1111L);
 		}
 		
@@ -77,7 +76,7 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 			Mockito.when(driverService.findAllDrivers()).thenReturn(list);
 			
 			 mvc.perform( MockMvcRequestBuilders
-						.get("http://localhost:8081/driver-service/getAllDrivers"))
+						.get("http://localhost:8081/driver-service/drivers"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 						.andExpect(jsonPath("$[0].id").value(list.get(0).getId()));
@@ -87,28 +86,29 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 		
 		@Test
 		public void getAllActiveDrivers_expectedOneActiveDriver() throws Exception {
+			driver.setStatus(DriverStatus.ACTIVE);
+			list.add(driver);
 			
 			Mockito.when(driverService.findAllActive()).thenReturn(list);
-			
-			list.add(driver);
-			 mvc.perform( MockMvcRequestBuilders
-						.get("http://localhost:8081/driver-service/getAllActiveDrivers"))
+			mvc.perform( MockMvcRequestBuilders
+						.get("http://localhost:8081/driver-service/drivers/status/{status}", "active"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 						.andExpect(jsonPath("$[0].id").value(list.get(0).getId()))
 						.andExpect(jsonPath("$[0].status").value(list.get(0).getStatus().name()));
+			
 			
 			Mockito.verify(driverService, Mockito.times(1)).findAllActive();
 		}
 		
 		@Test
 		public void getAllDeliveringDrivers_expectedOneActiveDriver() throws Exception {
-			
-			Mockito.when(driverService.findAllDelivering()).thenReturn(list);
 			driver.setStatus(DriverStatus.DELIVERING);
 			list.add(driver);
+			
+			Mockito.when(driverService.findAllDelivering()).thenReturn(list);
 			 mvc.perform( MockMvcRequestBuilders
-						.get("http://localhost:8081/driver-service/getAllDeliveringDrivers"))
+						.get("http://localhost:8081/driver-service/drivers/status/{status}", "delivering"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 						.andExpect(jsonPath("$[0].id").value(list.get(0).getId()))
@@ -119,12 +119,13 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 		
 		@Test
 		public void getAllInactiveDrivers_expectedOneActiveDriver() throws Exception {
-			
-			Mockito.when(driverService.findAllInActive()).thenReturn(list);
 			driver.setStatus(DriverStatus.INACTIVE);
 			list.add(driver);
+			
+			Mockito.when(driverService.findAllInActive()).thenReturn(list);
 			 mvc.perform( MockMvcRequestBuilders
-						.get("http://localhost:8081/driver-service/getAllInactiveDrivers"))
+						.get("http://localhost:8081/driver-service/drivers/status/{status}", "inactive")
+						.param("status", "INACTIVE"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
 						.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 						.andExpect(jsonPath("$[0].id").value(list.get(0).getId()))
@@ -140,7 +141,7 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 			driver.setStatus(DriverStatus.ACTIVE);
 			list.add(driver);
 			 mvc.perform( MockMvcRequestBuilders
-						.post("http://localhost:8081/driver-service/availableDriver")
+						.get("http://localhost:8081/driver-service/drivers/available")
 						.param("start", "10:10:00")
 						.param("end", "14:10:00"))
 						.andExpect(MockMvcResultMatchers.status().isOk())
@@ -153,88 +154,36 @@ import com.bringoz.driverscore.service.DriverServiceImpl;
 			Mockito.verify(driverService, Mockito.times(1)).findAllAvailableByTime(LocalTime.of(10, 10, 00 ),LocalTime.of(14, 10, 00));
 		}
 		
-		@Test
-		public void callChangeStatusToDelivering_expectedOneTimeCall() throws Exception {
-			
-			Mockito.doNothing().when(driverService).changeStatusToDelivering(1111L);
-			
-			MvcResult result =  mvc.perform( MockMvcRequestBuilders
-				      			.post("http://localhost:8081/driver-service/changeStatusToDelivering/{id}", 1111L))
-								.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-			
-			String response = result.getResponse().getContentAsString();
-			
-			assertEquals("Driver status changed to DELIVERING", response);
-			Mockito.verify(driverService, Mockito.times(1)).changeStatusToDelivering(1111L);
-		}
-		
-		@Test
-		public void callChangeStatusToActive_expectedOneTimeCall() throws Exception {
-			
-			Mockito.doNothing().when(driverService).changeStatusToActive(1111L);
-			
-			MvcResult result =   mvc.perform( MockMvcRequestBuilders
-								.post("http://localhost:8081/driver-service/changeStatusToActive/{id}", 1111L))
-								.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-			
-			String response = result.getResponse().getContentAsString();
-			
-			assertEquals("Driver status changed to ACTIVE", response);;
-			Mockito.verify(driverService, Mockito.times(1)).changeStatusToActive(1111L);
-		}
-		
-		@Test
-		public void callChangeStatusToInActive_expectedOneTimeCall() throws Exception {
-			
-			Mockito.doNothing().when(driverService).changeStatusToInactive(1111L);
-			
-			MvcResult result = mvc.perform( MockMvcRequestBuilders
-								.post("http://localhost:8081/driver-service/changeStatusToInactive/{id}", 1111L))
-								.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-			
-			String response = result.getResponse().getContentAsString();
-			
-			assertEquals("Driver status changed to INACTIVE", response);
-			
-			Mockito.verify(driverService, Mockito.times(1)).changeStatusToInactive(1111L);
-		}
 		
 		@Test
 		public void callremoveById_expectedOneTimeCall() throws Exception {
 			
-			Mockito.doNothing().when(driverService).remove(1111L);
+			Mockito.when(driverService.remove(driver.getId())).thenReturn(driver);
 			
-			MvcResult result =  mvc.perform( MockMvcRequestBuilders
-								.delete("http://localhost:8081/driver-service/removeDriver/{id}", 1111L))
+			mvc.perform( MockMvcRequestBuilders
+								.delete("http://localhost:8081/driver-service/drivers/{id}", driver.getId())
+								.contentType(MediaType.APPLICATION_JSON)
+								.accept(MediaType.APPLICATION_JSON))
 								.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+								
 			
-			String response = result.getResponse().getContentAsString();
-			
-			assertEquals("Driver with id: " + 1111L + " has been removed", response);;
-			Mockito.verify(driverService, Mockito.times(1)).remove(1111L);
+			Mockito.verify(driverService, Mockito.times(1)).remove(driver.getId());
 		}
 		
 		@Test
 		public void callupdate_expectedSuccessResponse() throws Exception {
 			
-			Mockito.doNothing().when(driverService).update(driver);
+			Mockito.when(driverService.update(driver)).thenReturn(driver);		
 			
-			MvcResult result =  mvc.perform( MockMvcRequestBuilders
-								.post("http://localhost:8081/driver-service/updateDriver")
+			mvc.perform( MockMvcRequestBuilders
+								.put("http://localhost:8081/driver-service/drivers")
 								.content(exampleDriverJson)
 								.contentType(MediaType.APPLICATION_JSON))
 								.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 			
+			Mockito.verify(driverService, Mockito.times(1)).update(driver);
 			
-			String response = result.getResponse().getContentAsString();
-			
-			assertEquals("Driver with id: " + driver.getId() + " successfully updated ", response);;
 		}
-		
-		
-		
-		
-		
 	}
 
 

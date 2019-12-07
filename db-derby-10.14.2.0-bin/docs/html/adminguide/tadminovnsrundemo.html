@@ -23,14 +23,11 @@
 <meta name="DC.rights.owner" content="(C) Copyright 2005" />
 <meta content="public" name="security" />
 <meta content="index,follow" name="Robots" />
-<meta http-equiv="PICS-Label"
-	content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
 <meta content="task" name="DC.Type" />
 <meta name="DC.Title" content="Running the NsSample sample program" />
-<meta name="abstract"
-	content="To run the NsSample program, follow these steps." />
-<meta name="description"
-	content="To run the NsSample program, follow these steps." />
+<meta name="abstract" content="To run the NsSample program, follow these steps." />
+<meta name="description" content="To run the NsSample program, follow these steps." />
 <meta scheme="URI" name="DC.Relation" content="radminovnssample.html" />
 <meta content="XHTML" name="DC.Format" />
 <meta content="tadminovnsrundemo" name="DC.Identifier" />
@@ -38,74 +35,68 @@
 <link href="commonltr.css" type="text/css" rel="stylesheet" />
 <title>Running the NsSample sample program</title>
 </head>
-<body id="tadminovnsrundemo">
-	<a name="tadminovnsrundemo">
-		<!-- -->
-	</a>
+<body id="tadminovnsrundemo"><a name="tadminovnsrundemo"><!-- --></a>
 
 
-	<h1 class="topictitle1">Running the NsSample sample program</h1>
+<h1 class="topictitle1">Running the NsSample sample program</h1>
 
 
-	<div>
-		<p>
-			To run the
-			<samp class="codeph">NsSample</samp>
-			program, follow these steps.
-		</p>
+<div><p>To run the <samp class="codeph">NsSample</samp> program, follow these
+steps.</p>
 
-		<ol>
-			<li class="stepexpand"><span>Open a command prompt and
-					change to the <samp class="codeph">
-						%<span>DERBY_HOME</span>%\demo\
-					</samp> directory, where <samp class="codeph">
-						%<span>DERBY_HOME</span>%
-					</samp> is the directory where you installed <span>Derby</span>.
-			</span></li>
+<ol>
+<li class="stepexpand"><span>Open a command prompt and change to the
+<samp class="codeph">%<span>DERBY_HOME</span>%\demo\</samp>
+directory, where
+<samp class="codeph">%<span>DERBY_HOME</span>%</samp> is
+the directory where you installed
+<span>Derby</span>.</span>
+</li>
 
-			<li class="stepexpand"><span>Set the CLASSPATH to the
-					current directory ("."), and also include the following jar files
-					in order to use the Network Server and the network client driver:</span>
-				<dl>
-					<dt class="dlterm">
-						<samp class="codeph">derbynet.jar</samp>
-					</dt>
+<li class="stepexpand"><span>Set the CLASSPATH to the current directory ("."), and also include
+the following jar files in order to use the Network Server and the network
+client driver:</span>
+ <dl>
+<dt class="dlterm"><samp class="codeph">derbynet.jar</samp></dt>
 
-					<dd>The Network Server jar file. It must be in your CLASSPATH
-						to use any of the Network Server functions.</dd>
+<dd>The Network Server jar file. It must be in your CLASSPATH to use any of
+the Network Server functions.</dd>
 
 
-					<dt class="dlterm">
-						<samp class="codeph">derbyclient.jar</samp>
-					</dt>
+<dt class="dlterm"><samp class="codeph">derbyclient.jar</samp></dt>
 
-					<dd>This jar file must be in your CLASSPATH to use the Network
-						Client driver.</dd>
+<dd>This jar file must be in your CLASSPATH to use the Network Client
+driver.</dd>
 
 
-					<dt class="dlterm">
-						<samp class="codeph">derby.jar</samp>
-					</dt>
+<dt class="dlterm"><samp class="codeph">derby.jar</samp></dt>
 
-					<dd>
-						The <span>Derby</span> database engine jar file.
-					</dd>
+<dd>The <span>Derby</span> database
+engine jar file.</dd>
 
-				</dl></li>
+</dl>
+</li>
 
-			<li class="stepexpand"><span>Test the CLASSPATH settings
-					by running the following Java command:</span> <pre>
-					<strong>java org.apache.derby.tools.sysinfo</strong>
-				</pre> This command shows the <span>Derby</span> jar files that are in the
-				classpath as well as their respective versions.</li>
+<li class="stepexpand"><span>Test the CLASSPATH settings by running the following Java
+command:</span>
+ 
+<pre><strong>java org.apache.derby.tools.sysinfo</strong></pre>
 
-			<li class="stepexpand"><span>After you set up your
-					environment correctly, run the <samp class="codeph">NsSample</samp>
-					program from the same directory:
-			</span> <pre>
-					<strong>java nserverdemo.NsSample</strong>
-				</pre> If the program runs successfully, you will receive output similar
-				to the following: <pre>Using JDBC driver: org.apache.derby.jdbc.ClientDriver
+
+ This command shows the
+<span>Derby</span> jar files that are in
+the classpath as well as their respective versions.
+</li>
+
+<li class="stepexpand"><span>After you set up your environment correctly, run the
+<samp class="codeph">NsSample</samp> program from the same directory:</span>
+ 
+<pre><strong>java nserverdemo.NsSample</strong></pre>
+
+
+ If the program runs successfully, you will receive output similar
+to the following:
+<pre>Using JDBC driver: org.apache.derby.jdbc.ClientDriver
 Derby Network Server created
 Apache <span>Derby</span> Network Server started
 and ready to accept connections on port 1621
@@ -147,49 +138,34 @@ Connection number: 2.
 [NsSample] Shutting down network server.
 Apache <span>Derby</span> Network Server - shutdown
 [NsSample] End of Network server demo.
-</pre></li>
+</pre>
+</li>
 
-		</ol>
+</ol>
 
-		<div class="section">
-			Running the
-			<samp class="codeph">NsSample</samp>
-			program also creates the following new directory and file:
-			<dl>
-				<dt class="dlterm">
-					<samp class="codeph">NSSampledb</samp>
-				</dt>
+<div class="section">Running the <samp class="codeph">NsSample</samp> program also creates the following
+new directory and file:<dl>
+<dt class="dlterm"><samp class="codeph">NSSampledb</samp></dt>
 
-				<dd>
-					This directory makes up the
-					<samp class="codeph">NSSampledb</samp>
-					database.
-				</dd>
+<dd>This directory makes up the <samp class="codeph">NSSampledb</samp> database.</dd>
 
 
-				<dt class="dlterm">
-					<samp class="codeph">derby.log</samp>
-				</dt>
+<dt class="dlterm"><samp class="codeph">derby.log</samp></dt>
 
-				<dd>
-					This log file contains <span>Derby</span> progress and error
-					messages.
-				</dd>
+<dd>This log file contains
+<span>Derby</span> progress and error
+messages.</dd>
 
-			</dl>
-		</div>
+</dl>
+</div>
 
-	</div>
+</div>
 
-	<div>
-		<div class="familylinks">
-			<div class="parentlink">
-				<strong>Parent topic:</strong> <a href="radminovnssample.html"
-					title="The NsSample demonstration program is a simple JDBC application that interacts with the Network Server.">The
-					NsSample sample program</a>
-			</div>
-		</div>
-	</div>
+<div>
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a href="radminovnssample.html" title="The NsSample demonstration program is a simple JDBC application that interacts with the Network Server.">The NsSample sample program</a></div>
+</div>
+</div>
 
 </body>
 </html>

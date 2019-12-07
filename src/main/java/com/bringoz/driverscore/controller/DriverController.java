@@ -3,20 +3,23 @@ package com.bringoz.driverscore.controller;
 import java.time.LocalTime;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bringoz.driverscore.exception.Driverscore;
+import com.bringoz.driverscore.exception.GeneralException;
 import com.bringoz.driverscore.model.Driver;
 import com.bringoz.driverscore.service.DriverServiceImpl;
+
 
 @RestController
 @RequestMapping("/driver-service/")
@@ -26,68 +29,56 @@ public class DriverController {
 	private DriverServiceImpl driverService;
 	
 	
-	@RequestMapping(value = "createDriver", method=RequestMethod.POST)
-	public ResponseEntity<String> createDriver(@RequestBody Driver driver) throws Driverscore {
-		driverService.create(driver);
-		return ResponseEntity.ok().body("New Driver has been saved");
+	@RequestMapping(value="/drivers", method= RequestMethod.POST)
+	public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) throws GeneralException {
+		return ResponseEntity.ok(driverService.create(driver));
 	}
 
-	@RequestMapping(value = "getDriverById/{id}", method=RequestMethod.GET)
-	public Driver getDriverById(@PathVariable ("id") Long id) throws Driverscore {
+	@GetMapping("/drivers/{id}")
+	public Driver getDriverById(@PathVariable ("id") Long id) throws GeneralException {
 		return driverService.findById(id);
 	}
 	
-	@RequestMapping(value = "getAllDrivers", method=RequestMethod.GET)
+	@RequestMapping(value="/drivers", method= RequestMethod.GET)
 	public List<Driver> getAllDrivers() {
 		return driverService.findAllDrivers();
 	}
 	
-	@RequestMapping(value = "getAllActiveDrivers", method=RequestMethod.GET)
-	public List<Driver> getAllActiveDrivers() {
-		return driverService.findAllActive();
+	@GetMapping("/drivers/status/{status}")
+	public ResponseEntity<List<Driver>> getAllDriversByStatus(@PathVariable("status") String status) {
+		
+		switch (status) {
+		case "inactive":
+			return ResponseEntity.ok(driverService.findAllInActive());
+			
+		case "delivering":
+			return ResponseEntity.ok(driverService.findAllDelivering());
+			
+		case "active": 
+			return ResponseEntity.ok(driverService.findAllActive());
+			
+		default:
+			return ResponseEntity.badRequest().build();
+		}
 	}
 	
-	@RequestMapping(value = "getAllDeliveringDrivers", method=RequestMethod.GET)
-	public List<Driver> getAllDeliveringDrivers() {
-		return driverService.findAllDelivering();
+	@RequestMapping(value="/drivers", method=RequestMethod.PUT)
+	public ResponseEntity<Driver> updateDriver(@RequestBody Driver driver) throws GeneralException{
+		return ResponseEntity.ok(driverService.update(driver));
 	}
 	
-	@RequestMapping(value = "getAllInactiveDrivers", method=RequestMethod.GET)
-	public List<Driver> getAllInactiveDrivers() {
-		return driverService.findAllInActive();
+	@RequestMapping(value="/drivers/{id}", method= RequestMethod.DELETE)
+	public ResponseEntity<Driver> removeDriverById(@PathVariable("id") long id) throws GeneralException{
+		if(driverService.findById(id) != null) {
+			return ResponseEntity.ok(driverService.remove(id));
+		}	
+		else {
+			  return ResponseEntity.notFound().build();
+		}
+		
 	}
 	
-	@RequestMapping(value = "updateDriver", method = RequestMethod.POST)
-	public ResponseEntity<String> updateDriver(@RequestBody Driver driver) throws Driverscore{
-		driverService.update(driver);
-		return ResponseEntity.ok().body("Driver with id: " + driver.getId() + " successfully updated ");
-	}
-	
-	@RequestMapping(value = "removeDriver/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> removeDriverById(@PathVariable("id") long id){
-		driverService.remove(id);
-		return ResponseEntity.ok().body("Driver with id: " + id + " has been removed");
-	}
-	
-	@RequestMapping(value = "changeStatusToActive/{id}", method=RequestMethod.POST)
-	public ResponseEntity<String> changeStatusToActive(@PathVariable("id") long id) throws Driverscore {
-		 driverService.changeStatusToActive(id);
-		 return	ResponseEntity.ok().body("Driver status changed to ACTIVE");
-	}
-	
-	@RequestMapping(value = "changeStatusToInactive/{id}", method=RequestMethod.POST)
-	public ResponseEntity<String> changeStatusToInactive(@PathVariable("id") long id) throws Driverscore {
-		driverService.changeStatusToInactive(id);
-		return	ResponseEntity.ok().body("Driver status changed to INACTIVE");
-	}
-	
-	@RequestMapping(value = "changeStatusToDelivering/{id}", method=RequestMethod.POST)
-	public ResponseEntity<String> changeStatusToDelivering(@PathVariable("id") long id) throws Driverscore {
-		driverService.changeStatusToDelivering(id);
-		return	ResponseEntity.ok().body("Driver status changed to DELIVERING");
-	}
-	
-	@RequestMapping(value = "availableDriver", method = RequestMethod.POST)
+	@GetMapping("/drivers/available")
 	public List<Driver> getAllAvailableDriversByTime(@RequestParam("start")
 									   @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime, 
 									   @RequestParam("end")
