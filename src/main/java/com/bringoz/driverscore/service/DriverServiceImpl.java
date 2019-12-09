@@ -3,9 +3,12 @@ package com.bringoz.driverscore.service;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bringoz.driverscore.HibernateConf;
 import com.bringoz.driverscore.exception.GeneralException;
 import com.bringoz.driverscore.model.Driver;
 import com.bringoz.driverscore.repository.DriverRepository;
@@ -18,10 +21,25 @@ public class DriverServiceImpl implements IDriverService {
 
 	@Override
 	public Driver create(Driver driver) throws GeneralException {
-		if(driverRepository.existsById(driver.getId())) {
+		
+		final Session session = HibernateConf.getHibernateSession();
+		
+		if(driverRepository.existsByDriverId(driver.getDriverId())) {
 			throw new GeneralException("Driver with this ID is already exist");
 		} else {
-				return driverRepository.save(driver);
+			
+			try {
+				Transaction tx = session.beginTransaction();
+				session.save(driver);
+				tx.commit();
+				session.clear();
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				session.close();
+			}
+				return driverRepository.findByDriverId(driver.getDriverId()).get();
 				}
 	}
 
@@ -56,7 +74,7 @@ public class DriverServiceImpl implements IDriverService {
 
 	@Override
 	public Driver findById(Long id) throws GeneralException {
-		if(driverRepository.existsById(id)) {
+		if(driverRepository.existsByDriverId(id)) {
 			return driverRepository.findById(id).get();
 		} else {
 				throw new GeneralException("Driver with id "+id + " not found");

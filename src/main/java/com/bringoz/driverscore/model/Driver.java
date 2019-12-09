@@ -11,53 +11,56 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.EnumDeserializer;
-
-import ch.qos.logback.core.status.Status;
-
 
 @Entity
 
 public class Driver implements Serializable {
 	
 	
-	@Id
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6129788184602878279L;
 	
-	@Column
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "ID", updatable = false, nullable = false)
+	private long id;
+
+	@Column(name = "driver_id", updatable = false, nullable = false)
+	private Long driverId;
+	
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
-	@Column
+	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
-	@Column
+	@Column(name = "AGE", nullable = false)
 	private int age;
-	@Column
+	@Column(name = "ADDRESS")
 	private String address;
 	
-	@Column
+	@Column(name = "STATUS")
 	@Enumerated(EnumType.STRING)
 	private DriverStatus status;
 	
-	@Column(name = "start_time", columnDefinition = "TIME")
+	@Column(name = "START_TIME", columnDefinition = "TIME")
 	private LocalTime start;
 	
-	@Column(name = "end_time", columnDefinition = "TIME")
+	@Column(name = "END_TIME", columnDefinition = "TIME")
 	private LocalTime end;
 	
-	@Column
+	@Column(name = "IS_IN_MAP_BOUNDS")
 	private boolean isInMapBounds;
 
 	public Driver() {
 		super();
 	}
 
-	public Driver(Long id, String firstName, String lastName, int age, String address, DriverStatus status,
-			LocalTime start, LocalTime end, boolean isInMapBounds) {
+
+	public Driver(Long driverId, String firstName, String lastName, int age, String address,
+			DriverStatus status, LocalTime start, LocalTime end, boolean isInMapBounds) {
 		super();
-		this.id = id;
+		this.driverId = driverId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
@@ -65,6 +68,27 @@ public class Driver implements Serializable {
 		this.status = status;
 		this.start = start;
 		this.end = end;
+		this.isInMapBounds = isInMapBounds;
+	}
+
+	
+
+	public Long getDriverId() {
+		return driverId;
+	}
+
+
+	public void setDriverId(Long driverId) {
+		this.driverId = driverId;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	public void setInMapBounds(boolean isInMapBounds) {
 		this.isInMapBounds = isInMapBounds;
 	}
 
@@ -128,11 +152,11 @@ public class Driver implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return driverId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.driverId = id;
 	}
 
 	public void setIsInMapBounds(boolean isInMapBounds) {
@@ -152,7 +176,7 @@ public class Driver implements Serializable {
 		result = prime * result + age;
 		result = prime * result + ((end == null) ? 0 : end.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((driverId == null) ? 0 : driverId.hashCode());
 		result = prime * result + (isInMapBounds ? 1231 : 1237);
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
@@ -186,10 +210,10 @@ public class Driver implements Serializable {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (driverId == null) {
+			if (other.driverId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!driverId.equals(other.driverId))
 			return false;
 		if (isInMapBounds != other.isInMapBounds)
 			return false;
@@ -210,7 +234,7 @@ public class Driver implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Driver [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age
+		return "Driver [id=" + driverId + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age
 				+ ", address=" + address + ", status=" + status + ", start=" + start + ", end=" + end
 				+ ", isInMapBounds=" + isInMapBounds + "]";
 	}

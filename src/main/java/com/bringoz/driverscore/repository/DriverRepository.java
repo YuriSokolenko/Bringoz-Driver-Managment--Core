@@ -2,6 +2,7 @@ package com.bringoz.driverscore.repository;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,11 @@ public interface DriverRepository extends JpaRepository<Driver, Long>{
 
     @Query("select d from Driver d where d.start <= :startTime and d.end >= :endTime and d.isInMapBounds=true and d.status = 'ACTIVE'")
 	List<Driver> findAllAvailable(@Param("startTime")LocalTime startTime, @Param("endTime")LocalTime endTime);
+
+    @Query(value = "SELECT * FROM DRIVER WHERE DRIVER_ID = :id", nativeQuery = true)
+	Optional<Driver> findByDriverId(@Param("id")Long id);
+
+	boolean existsByDriverId(Long driverId);
 	
 	
 	
