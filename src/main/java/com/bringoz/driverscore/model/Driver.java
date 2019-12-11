@@ -68,7 +68,7 @@ public class Driver implements Serializable {
 		this.status = status;
 		this.start = start;
 		this.end = end;
-		this.isInMapBounds = isInMapBounds;
+		this.isInMapBounds = true;
 	}
 
 	

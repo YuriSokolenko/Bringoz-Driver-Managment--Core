@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bringoz.driverscore.exception.GeneralException;
 import com.bringoz.driverscore.model.Driver;
 import com.bringoz.driverscore.service.DriverServiceImpl;
+import com.bringoz.driverscore.utils.DriverLocation;
 
 
 @RestController
@@ -86,5 +87,14 @@ public class DriverController {
 		return driverService.findAllAvailableByTime(startTime, endTime);
 	}
 	
+	@RequestMapping(value="/drivers/location/{id}", method= RequestMethod.PUT)
+	public ResponseEntity<Driver> setLocationById(@PathVariable("id") long id, @RequestBody DriverLocation driverLocation) throws GeneralException{
+		if(driverService.findById(id) != null) {
+			return ResponseEntity.ok(driverService.setLocationById(id, driverLocation));
+		}	
+		else {
+			  return ResponseEntity.notFound().build();
+		}
+	}
 	
 }
